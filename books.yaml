@@ -1,0 +1,21 @@
+books:
+  - title: "Sapiens"
+    author: "Yuval Noah Harari"
+    rating: 4.5
+    pages: 412
+    color: "#ffcc00"
+    favorite: true
+
+  - title: "Atomic Habits"
+    author: "James Clear"
+    rating: 5.0
+    pages: 320
+    color: "#3399ff"
+    favorite: false
+
+  - title: "Deep Work"
+    author: "Cal Newport"
+    rating: 4.0
+    pages: 296
+    color: "#cc6666"
+    favorite: true
