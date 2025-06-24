@@ -1,7 +1,38 @@
-<script type="module">
-  import yaml from 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interaktives Bücherregal</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 1rem; background: #fdfdfd; }
+    .controls { margin-bottom: 1rem; }
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.75);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 12px;
+    }
+    .shelf { fill: #6b4c3b; }
+    .book { stroke: #333; stroke-width: 0.5; rx: 2; ry: 2; }
+    .star { fill: gold; font-size: 14px; }
+    textarea { width: 100%; height: 200px; font-family: monospace; }
+    @media (max-width: 768px) {
+      svg { width: 100% !important; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label><input type="checkbox" id="favOnly"> Nur Favoriten anzeigen</label>
+    <button onclick="renderBooks()">Aktualisieren</button>
+  </div>
 
-  const yamlText = `
+  <textarea id="yamlInput">
 books:
   - title: "Sapiens"
     author: "Yuval Noah Harari"
@@ -9,80 +40,106 @@ books:
     pages: 412
     color: "#f4c542"
     favorite: true
-
   - title: "Atomic Habits"
     author: "James Clear"
     rating: 5.0
     pages: 320
     color: "#3399ff"
     favorite: false
-
   - title: "Deep Work"
     author: "Cal Newport"
     rating: 4.0
     pages: 296
     color: "#cc6666"
     favorite: true
-  `;
+  - title: "The Pragmatic Programmer"
+    author: "Andrew Hunt"
+    rating: 5.0
+    pages: 352
+    color: "#8e44ad"
+    favorite: false
+  </textarea>
 
-  const data = yaml.load(yamlText).books;
+  <svg id="bookshelf" width="1000" height="600"></svg>
+  <div class="tooltip" style="display: none;"></div>
 
-  const svg = d3.select("#bookshelf");
-  const tooltip = d3.select(".tooltip");
-  const shelfHeight = 100;
-  const shelfPadding = 10;
-  const bookSpacing = 4;
-  const shelfCount = 5;
+  <script>
+    const svg = d3.select("#bookshelf");
+    const tooltip = d3.select(".tooltip");
+    const shelfHeight = 120;
+    const shelfCount = 5;
 
-  for (let i = 0; i < shelfCount; i++) {
-    svg.append("rect")
-      .attr("x", 0)
-      .attr("y", i * shelfHeight)
-      .attr("width", 1000)
-      .attr("height", 10)
-      .attr("class", "shelf");
-  }
+    function renderBooks() {
+      svg.selectAll("*").remove();
 
-  let xOffset = 10;
-  let shelfIndex = 0;
+      let data;
+      try {
+        const yamlText = document.getElementById("yamlInput").value;
+        data = jsyaml.load(yamlText).books;
+      } catch (err) {
+        alert("YAML-Fehler: " + err.message);
+        return;
+      }
 
-  data.forEach((book, i) => {
-    const height = 50 + (book.pages / 10);
-    const width = 18;
-    if (xOffset + width > 980) {
-      xOffset = 10;
-      shelfIndex++;
+      const favOnly = document.getElementById("favOnly").checked;
+      if (favOnly) {
+        data = data.filter(b => b.favorite);
+      }
+
+      for (let i = 0; i < shelfCount; i++) {
+        svg.append("rect")
+          .attr("x", 0)
+          .attr("y", i * shelfHeight)
+          .attr("width", 1000)
+          .attr("height", 10)
+          .attr("class", "shelf");
+      }
+
+      let xOffset = 10;
+      let shelfIndex = 0;
+
+      data.forEach((book, i) => {
+        const width = 12 + book.rating * 5; // Rating beeinflusst Breite
+        const height = 40 + (book.pages / 10); // Seiten beeinflussen Höhe
+
+        if (xOffset + width > 980) {
+          xOffset = 10;
+          shelfIndex++;
+        }
+
+        const y = shelfIndex * shelfHeight + (shelfHeight - height - 10);
+        const group = svg.append("g");
+
+        group.append("rect")
+          .attr("x", xOffset)
+          .attr("y", y)
+          .attr("width", width)
+          .attr("height", height)
+          .attr("fill", book.color)
+          .attr("class", "book")
+          .on("mouseover", (event) => {
+            tooltip
+              .style("left", event.pageX + 10 + "px")
+              .style("top", event.pageY + "px")
+              .style("display", "block")
+              .html(`<strong>${book.title}</strong><br>${book.author}<br>${book.pages} Seiten<br>★ ${book.rating}`);
+          })
+          .on("mouseout", () => tooltip.style("display", "none"));
+
+        if (book.favorite) {
+          group.append("text")
+            .attr("x", xOffset + width / 2)
+            .attr("y", y - 5)
+            .attr("text-anchor", "middle")
+            .attr("class", "star")
+            .text("★");
+        }
+
+        xOffset += width + 6;
+      });
     }
 
-    const y = shelfIndex * shelfHeight + (shelfHeight - height - 10);
-
-    const group = svg.append("g");
-
-    group.append("rect")
-      .attr("x", xOffset)
-      .attr("y", y)
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", book.color)
-      .attr("class", "book")
-      .on("mouseover", (event) => {
-        tooltip
-          .style("left", event.pageX + 10 + "px")
-          .style("top", event.pageY + "px")
-          .style("display", "block")
-          .html(`<strong>${book.title}</strong><br>${book.author}<br>${book.pages} Seiten<br>★ ${book.rating}`);
-      })
-      .on("mouseout", () => tooltip.style("display", "none"));
-
-    if (book.favorite) {
-      group.append("text")
-        .attr("x", xOffset + width / 2)
-        .attr("y", y - 5)
-        .attr("text-anchor", "middle")
-        .attr("class", "star")
-        .text("★");
-    }
-
-    xOffset += width + bookSpacing;
-  });
-</script>
+    renderBooks();
+  </script>
+</body>
+</html>
