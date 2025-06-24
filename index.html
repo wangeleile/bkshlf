@@ -2,24 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Bücherregal</title>
+  <title>Mein Bücherregal</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    body { background: #fffaf4; }
-    .shelf { fill: #6b4c3b; }
+    body {
+      background: #fefefe;
+      font-family: sans-serif;
+    }
+    .shelf {
+      fill: #6b4c3b;
+    }
     .book {
-      stroke: #333;
-      stroke-width: 1px;
+      stroke: #222;
+      stroke-width: 0.5px;
       rx: 2;
       ry: 2;
     }
     .star {
       fill: gold;
+      font-size: 14px;
+    }
+    .tooltip {
+      position: absolute;
+      background: rgba(0,0,0,0.75);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
-  <svg id="bookshelf" width="900" height="600"></svg>
+  <svg id="bookshelf" width="1000" height="600"></svg>
+  <div class="tooltip" style="display: none;"></div>
+
   <script type="module">
     import yaml from 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/+esm';
 
@@ -28,54 +45,54 @@
     const data = yaml.load(yamlText).books;
 
     const svg = d3.select("#bookshelf");
+    const tooltip = d3.select(".tooltip");
     const shelfHeight = 100;
     const shelfPadding = 10;
-    const bookSpacing = 5;
+    const bookSpacing = 4;
     const shelfCount = 5;
 
-    // Draw shelves
     for (let i = 0; i < shelfCount; i++) {
       svg.append("rect")
         .attr("x", 0)
         .attr("y", i * shelfHeight)
-        .attr("width", 900)
+        .attr("width", 1000)
         .attr("height", 10)
         .attr("class", "shelf");
     }
 
-    // Render books
     let xOffset = 10;
     let shelfIndex = 0;
 
     data.forEach((book, i) => {
-      const height = 60 + (book.pages / 10); // Seitenzahl als Höhe
-      const width = 20; // einheitlich
-
-      if (xOffset + width > 880) {
+      const height = 50 + (book.pages / 10);
+      const width = 18;
+      if (xOffset + width > 980) {
         xOffset = 10;
         shelfIndex++;
       }
 
       const y = shelfIndex * shelfHeight + (shelfHeight - height - 10);
 
-      const bookGroup = svg.append("g");
+      const group = svg.append("g");
 
-      bookGroup.append("rect")
+      group.append("rect")
         .attr("x", xOffset)
         .attr("y", y)
         .attr("width", width)
         .attr("height", height)
         .attr("fill", book.color)
         .attr("class", "book")
-        .transition()
-        .duration(800)
-        .attr("y", y - 10)
-        .transition()
-        .duration(300)
-        .attr("y", y);
+        .on("mouseover", (event) => {
+          tooltip
+            .style("left", event.pageX + 10 + "px")
+            .style("top", event.pageY + "px")
+            .style("display", "block")
+            .html(`<strong>${book.title}</strong><br>${book.author}<br>${book.pages} Seiten<br>★ ${book.rating}`);
+        })
+        .on("mouseout", () => tooltip.style("display", "none"));
 
       if (book.favorite) {
-        bookGroup.append("text")
+        group.append("text")
           .attr("x", xOffset + width / 2)
           .attr("y", y - 5)
           .attr("text-anchor", "middle")
