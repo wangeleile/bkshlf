@@ -66,7 +66,6 @@ books:
   <script>
     const svg = d3.select("#bookshelf");
     const tooltip = d3.select(".tooltip");
-    const shelfHeight = 120;
     const shelfCount = 5;
 
     function renderBooks() {
@@ -85,6 +84,11 @@ books:
       if (favOnly) {
         data = data.filter(b => b.favorite);
       }
+
+      // Dynamische Regalhöhe basierend auf dem Buch mit den meisten Seiten
+      const maxPages = data.length > 0 ? Math.max(...data.map(b => b.pages)) : 0;
+      const maxBookHeight = 40 + (maxPages / 10); // gleiche Formel wie für Buchhöhe
+      const shelfHeight = maxBookHeight + 20; // etwas Abstand nach oben/unten
 
       for (let i = 0; i < shelfCount; i++) {
         svg.append("rect")
