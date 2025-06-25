@@ -1,21 +1,110 @@
 books:
   - title: "Sapiens"
+    series: "Sapiens"
+    medium: "book"
     author: "Yuval Noah Harari"
+    genre: "Non-fiction"
     rating: 4.5
     pages: 412
+    duration: "12h 30m"
+    narrator: "Derek Perkins"
     color: "#ffcc00"
     favorite: true
+    goodreads: "https://www.goodreads.com/book/show/23692271-sapiens"
+    your_stars: 5
+    goodreads_stars: 4.5
+    isbn: "9780062316097"
+    description: "Sapiens explores the history of humankind, from the emergence
+    description_german: "Sapiens untersucht die Geschichte der Menschheit, von den Anfängen bis zur Gegenwart."
+    my_opinion: "A fascinating and thought-provoking exploration of human history, blending anthropology, history, and science."
+    publisher: "Harper"
+    tags: ["history", "anthropology", "science"]
 
   - title: "Atomic Habits"
+    series: "Atomic Habits"
+    medium: "audiobook"
     author: "James Clear"
+    genre: "Self-help"
     rating: 5.0
     pages: 320
+    duration: "5h 35m"
+    language: "English"
+    narrator: "Eliot Hill"
     color: "#3399ff"
     favorite: false
+    goodreads: "https://www.goodreads.com/book/show/40121378-atomic-habits"
+    your_stars: 3
+    goodreads_stars: 4.0
+    isbn: "9780735211292"
+    description: "Atomic Habits offers a proven framework for improving every day, teaching how small changes can lead to remarkable results over time."
+    description_german: "Atomic Habits bietet einen bewährten Rahmen zur Verbesserung im Alltag und zeigt, wie kleine Veränderungen zu bemerkenswerten Ergebnissen führen können."
+    my_opinion: "A practical guide to building good habits and breaking bad ones, with actionable strategies that are easy to implement."
+    publisher: "Penguin Random House"
+    tags: ["habits", "self-improvement", "productivity"]
+
 
   - title: "Deep Work"
+    series: "Deep Work"
+    medium: "audiobook"
     author: "Cal Newport"
+    genre: "Productivity"
     rating: 4.0
     pages: 296
+    duration: "11h 22m"
+    language: "English"
+    narrator: "Jeff Bottoms"
     color: "#cc6666"
     favorite: true
+    goodreads: "https://www.goodreads.com/book/show/19288218-deep-work"
+    your_stars: 4
+    goodreads_stars: 4.0
+    isbn: "9781455586691"
+    description: "Deep Work is a guide to focused success in a distracted world, teaching the importance of deep work and how to cultivate it in our increasingly distracted lives."
+    description_german: "Deep Work ist ein Leitfaden für fokussierten Erfolg in einer abgelenkten Welt und lehrt die Bedeutung von tiefem Arbeiten
+    my_opinion: "A compelling argument for the value of deep work in achieving high levels of productivity and creativity, with practical tips for minimizing distractions."
+    publisher: "Grand Central Publishing"
+    tags: ["focus", "productivity", "work habits"]
+
+  - title: "Herr der Ringe - Die Gefährten" 
+    series: "Herr der Ringe"
+    medium: "audiobook "
+    author: "J.R.R. Tolkien"
+    genre: "Fantasy"
+    rating: 5.0
+    pages: 576
+    duration: "19h 20m"
+    language: "German"
+    narrator: "Richard Barenberg"
+    color: "#66cc66"
+    favorite: true
+    goodreads: "https://www.goodreads.com/book/show/34.Herr_der_Ringe_Die_Gef_C3_A4hrten"
+    your_stars: 5
+    goodreads_stars: 4.5
+    isbn: "9783453211764"
+    description: "Die Gefährten ist der erste Band der Herr der Ringe-Trilogie, in dem Frodo Beutlin und seine Gefährten sich auf eine gefährliche Reise begeben, um den Einen Ring zu zerstören."
+    description_german: "Die Gefährten ist der erste Band der Herr der Ringe-Trilogie, in dem Frodo Beutlin und seine Gefährten sich auf eine gefährliche Reise begeben, um den Einen Ring zu zerstören."
+    my_opinion: "Ein episches Abenteuer voller Magie, Freundschaft und Mut, das die Fantasie beflügelt und den Leser in eine andere Welt entführt. Die ersten 50 Seiten sind etwas zäh, aber danach wird es richtig spannend."
+    publisher: "Klett-Cotta"
+    tags: ["fantasy", "adventure", "epic"]
+  
+  - title: "Kohlrabenschwarz"
+    series: "Kohlrabenschwarz"
+    medium: "audiobook"
+    author: "Tommy Krappweis & Christian von Aster"
+    genre: "Mystery, Krimi, Comedy, Horror"
+    rating: 4.5
+    pages: null
+    duration: "8h 26m"
+    language: "German"
+    narrator: "Michael Kessler, Bettina Zimmermann, Bettina Lamprecht, Jürgen Tonkel, Götz Otto"
+    color: "#cc6666"
+    favorite: false
+    goodreads: "https://www.goodreads.com/book/show/56262553-kohlrabenschwarz"
+    your_stars: null
+    goodreads_stars: 4.0
+    isbn: null
+    description: "Im beschaulichen Rosenheim will der Polizeiseelsorger Stefan Schwab Ruhe und Abstand zum Job finden. Stattdessen verschwinden Kinder, sagenumwobene Gegenstände tauchen auf und uralte Märchen bekommen eine blutige Brisanz. Bald erkennt Schwab, dass hinter den mysteriösen Verbrechen ein perfider Plan steckt."
+    description_german: "Im beschaulichen Rosenheim will der Polizeiseelsorger Stefan Schwab Ruhe und Abstand zum Job finden. Stattdessen verschwinden Kinder, sagenumwobene Gegenstände tauchen auf und uralte Märchen bekommen eine blutige Brisanz. Bald erkennt Schwab, dass hinter den mysteriösen Verbrechen ein perfider Plan steckt."
+    my_opinion: null
+    publisher: "Audible Originals / Audible Studios"
+    tags: ["mystery", "krimi", "horror", "comedy"]'
